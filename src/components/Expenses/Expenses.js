@@ -1,10 +1,11 @@
 import React,{useState} from "react";
-import ExpenseItem from "./ExpenseItem";
 import Card from "../UI/Card";
 import ExpensesFilter from "./ExpensesFilter";
+import ExpensesList from "./ExpensesList";
+import ExpensesChart from "./ExpensesChart";
 import "./Expenses.css";
 
-function Expenses(props) {
+const Expenses = (props) => {
 
   const[filteredYear, setFilterYear] = useState('2023');
 
@@ -23,17 +24,8 @@ function Expenses(props) {
 
   const filterdExpenses = props.items.filter(expense => {return expense.date.getFullYear().toString() === filteredYear});
 
-  //3번째 방법 {expensesContent} 변수에 담아서 로직을 줄이기
-  let expensesContent = <p>No expenses found.</p>;
-  if(filterdExpenses.length > 0) {
-    expensesContent = filterdExpenses.map(expense =>
-                      <ExpenseItem 
-                      key={expense.id}
-                      title={expense.title} 
-                      amount={expense.amount} 
-                      date={expense.date}
-                      /> )
-  }
+  //3번째 방법 {expensesContent} 변수에 담아서 로직을 줄이기 => ExpensesList.js로 옮김
+ 
 
   return (
     <div>
@@ -63,7 +55,8 @@ function Expenses(props) {
                                         amount={expense.amount} 
                                         date={expense.date}
                                         />)} */} {/* 1. 이 표현식은 너무 길다. */}
-       {expensesContent} 
+       <ExpensesChart expenses={filterdExpenses}/>
+       <ExpensesList items={filterdExpenses}/>
       </Card>
     </div>
   );
